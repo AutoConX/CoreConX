@@ -1,6 +1,6 @@
 {
   "name": "coreconx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The CoreConX framework.",
   "private": true,
   "main": "index.cfm",
