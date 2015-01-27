@@ -1,0 +1,39 @@
+{
+  "name": "coreconx",
+  "version": "0.0.1",
+  "description": "The CoreConX framework.",
+  "private": true,
+  "main": "index.cfm",
+  "scripts": {
+    "test": "box server start name=coreconx force=true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AutoConX/CoreConX.git"
+  },
+  "keywords": [
+    "autoconx",
+    "coreconx",
+    "cfml",
+    "framework"
+  ],
+  "author": "AutoConX Systems",
+  "license": "All Rights Reserved",
+  "devDependencies": {
+    "del": "^0.1.3",
+    "gulp": "^3.8.8",
+    "gulp-autoprefixer": "0.0.7",
+    "gulp-cache": "~0.2.0",
+    "gulp-concat": "^2.3.5",
+    "gulp-csso": "~0.2.9",
+    "gulp-imagemin": "^0.6.2",
+    "gulp-jshint": "^1.6.4",
+    "gulp-livereload": "~2.1.0",
+    "gulp-replace": "^0.3.0",
+    "gulp-size": "^0.4.1",
+    "gulp-stylus": "^1.0.5",
+    "gulp-uglify": "^0.3.2",
+    "psi": "0.0.4",
+    "run-sequence": "^0.3.7"
+  }
+}
