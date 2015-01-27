@@ -6,7 +6,20 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         return this;
     }
 
-    public function _( string locale = '', string key = '', string fallback = '' ) {
+    // application.onRequest
+    public boolean function onRequest( string targetpage ) {
+        // Shortcut methods
+        // Read this for more info: http://www.milesrausch.com/2012/11/04/shortcut-functions-in-cfml/
+        variables._ = _;
+
+        // Include our target page
+        include arguments.targetpage;
+
+        return true;
+    }
+
+    // Translate strings
+    public string function _( string locale = '', string key = '', string fallback = '' ) {
         var translator = '';
         var translation = '';
         var fallbackLocale = 'en_US';
