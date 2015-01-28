@@ -11,6 +11,18 @@ component extends="testbox.system.BaseSpec" {
                 expect( coreconx ).toHaveKey('init');
             });
 
+            it('should be configurable', function() {
+                expect( coreconx ).toHaveKey('configure');
+
+                coreconx.configure({
+                    translator = 'com.translator',
+                    authenticator = 'com.authenticator'
+                });
+
+                expect( coreconx.getTranslator() ).toBe('com.translator');
+                expect( coreconx.getAuthenticator() ).toBe('com.authenticator');
+            });
+
             describe('Translator', function() {
 
                 it('should have getter and setter', function() {
