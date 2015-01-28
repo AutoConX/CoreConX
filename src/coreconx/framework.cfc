@@ -1,6 +1,7 @@
 component name='CoreConX' description='The CoreConX framework.' accessors='true' {
 
     property name='translator' default='';
+    property name='authenticator' default='';
 
     public function init() {
         return this;
@@ -55,6 +56,20 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         }
 
         return translation;
+    }
+
+    public boolean function authenticate( struct credentials = {} ) {
+        var isAuthentic = false;
+
+        if ( len( trim( getAuthenticator() ) ) ) {
+            try {
+                isAuthentic = createObject( 'component', getAuthenticator() ).authenticate( argumentCollection = arguments );
+            } catch( any ex ) {
+                isAuthentic = false;
+            }
+        }
+
+        return isAuthentic;
     }
 
 }
