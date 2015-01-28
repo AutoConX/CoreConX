@@ -55,7 +55,58 @@ component extends="testbox.system.BaseSpec" {
                     expect( coreconx._('fakeLocale', 'testing', 'Fallback Text') ).toBe('custom testing');
                     expect( coreconx._('fakeLocale', 'missing_key', 'Fallback Text') ).toBe('Fallback Text');
                 });
-            })
+            });
+
+            describe('Authenticator', function() {
+
+                it('should have getter and setter', function() {
+                    expect( coreconx ).toHaveKey('setAuthenticator');
+                    expect( coreconx ).toHaveKey('getAuthenticator');
+                    expect( coreconx ).toHaveKey('authenticate');
+                });
+
+                it('should authenticate', function() {
+                    var validLogin = {
+                        username = 'test',
+                        password = 'password'
+                    };
+                    var invalidLogin = {
+                        username = 'test',
+                        password = 'test'
+                    };
+
+                    coreconx.setAuthenticator('test.stubs.authenticator');
+                    expect( coreconx.getAuthenticator() ).toBe('test.stubs.authenticator');
+                    expect( coreconx.authenticate() ).toBeFalse();
+                    expect( coreconx.authenticate( credentials = validLogin ) ).toBeTrue();
+                    expect( coreconx.authenticate( credentials = invalidLogin ) ).toBeFalse();
+                });
+
+                it('should not authenticate with an empty authenticator', function() {
+                    var validLogin = {
+                        username = 'test',
+                        password = 'password'
+                    };
+
+                    coreconx.setAuthenticator('');
+                    expect( coreconx.getAuthenticator() ).toBeEmpty();
+                    expect( coreconx.authenticate() ).toBeFalse();
+                    expect( coreconx.authenticate( credentials = validLogin ) ).toBeFalse();
+                });
+
+                it('should not authenticate with a broken or missing authenticator', function() {
+                    var validLogin = {
+                        username = 'test',
+                        password = 'password'
+                    };
+
+                    coreconx.setAuthenticator('missingAuthenticator.authenticator');
+                    expect( coreconx.getAuthenticator() ).toBe('missingAuthenticator.authenticator');
+                    expect( coreconx.authenticate() ).toBeFalse();
+                    expect( coreconx.authenticate( credentials = validLogin ) ).toBeFalse();
+                });
+            });
+
         });
     }
 
