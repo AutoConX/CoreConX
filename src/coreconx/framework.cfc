@@ -19,6 +19,15 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         return true;
     }
 
+    // Configure the framework
+    public void function configure( struct configuration = {} ) {
+        for ( var key in arguments.configuration ) {
+            if ( isDefined('this.set#key#') ) {
+                this['set#key#']( arguments.configuration[ key ] );
+            }
+        }
+    }
+
     // Translate strings
     public string function _( string locale = '', string key = '', string fallback = '' ) {
         var translator = '';
