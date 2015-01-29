@@ -2,6 +2,7 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
 
     property name='translator' default='';
     property name='authenticator' default='';
+    property name='isAutoAuthenticating' type='boolean' default='false';
 
     public function init() {
         return this;
@@ -12,6 +13,10 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         // Shortcut methods
         // Read this for more info: http://www.milesrausch.com/2012/11/04/shortcut-functions-in-cfml/
         variables._ = _;
+
+        if ( getIsAutoAuthenticating() ) {
+            authenticate();
+        }
 
         // Include our target page
         include arguments.targetpage;
