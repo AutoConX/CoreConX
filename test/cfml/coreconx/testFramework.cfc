@@ -117,6 +117,23 @@ component extends="testbox.system.BaseSpec" {
                     expect( coreconx.authenticate() ).toBeFalse();
                     expect( coreconx.authenticate( credentials = validLogin ) ).toBeFalse();
                 });
+
+                it('should allow auto-authentication', function() {
+                    expect( coreconx ).toHaveKey('setIsAutoAuthenticating');
+                    expect( coreconx ).toHaveKey('getIsAutoAuthenticating');
+
+                    expect( coreconx.getIsAutoAuthenticating() ).toBeFalse();
+
+                    coreconx.setIsAutoAuthenticating( true );
+                    expect( coreconx.getIsAutoAuthenticating() ).toBeTrue();
+
+                    coreconx.setIsAutoAuthenticating( false );
+                    expect( coreconx.getIsAutoAuthenticating() ).toBeFalse();
+                    coreconx.configure({
+                        isAutoAuthenticating = true
+                    });
+                    expect( coreconx.getIsAutoAuthenticating() ).toBeTrue();
+                });
             });
 
         });
