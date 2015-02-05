@@ -43,7 +43,7 @@ Dependencies:
   * [Commandbox](http://www.ortussolutions.com/products/commandbox)
   * [Testbox](http://wiki.coldbox.org/wiki/TestBox.cfm)
 
-To view the example site:
+To view the tests:
   1. Clone the CoreConX project
   1. Run `npm install`
   1. Run `npm test`
