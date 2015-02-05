@@ -86,4 +86,26 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         return isAuthentic;
     }
 
+    public string function show( required struct target, required string property, string wrapBefore = '', string wrapAfter = '', boolean makeHTMLSafe = true ) {
+        var shown = '';
+
+        if ( isDefined('arguments.target.#property#') ) {
+            shown = arguments.target[ property ];
+
+            if ( arguments.makeHTMLSafe ) {
+                shown = HTMLEditFormat( shown );
+            }
+
+            if ( isBoolean( shown ) && !isNumeric( shown ) && shown ) {
+                shown = wrapBefore & yesNoFormat( shown ) & wrapAfter;
+            } else if ( isNumeric( shown ) && val( shown ) ) {
+                shown = wrapBefore & val( shown ) & wrapAfter;
+            } else if ( len( shown ) ) {
+                shown = wrapBefore & shown & wrapAfter;
+            }
+        }
+
+        return shown;
+    }
+
 }

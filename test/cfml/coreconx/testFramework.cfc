@@ -136,6 +136,44 @@ component extends="testbox.system.BaseSpec" {
                 });
             });
 
+            describe('Show', function() {
+
+                beforeEach(function( currentSpec ) {
+                    item = {
+                        name = 'Fake Item',
+                        age = 10,
+                        is_old = false
+                    };
+                });
+
+                it('should have a method', function() {
+                    expect( coreconx ).toHaveKey('show');
+                });
+
+                it('should show a struct''s property if it exists', function() {
+                    expect( coreconx.show( item, 'name') ).toBe( item.name );
+                    expect( coreconx.show( item, 'age') ).toBe( 10 );
+                    expect( coreconx.show( item, 'fakekey') ).toBeEmpty();
+                });
+
+                it('should format booleans with yes/no', function() {
+                    expect( coreconx.show( item, 'is_old') ).toBe('no');
+                });
+
+                it('should put wrap strings around the value', function() {
+                    expect( coreconx.show( item, 'name', 'Name: ') ).toBe( 'Name: ' & item.name );
+                    expect( coreconx.show( item, 'name', '', '!') ).toBe( item.name & '!' );
+                    expect( coreconx.show( item, 'name', 'Name: ', '!') ).toBe( 'Name: ' & item.name & '!' );
+                });
+
+                it('should format the value for HTML unless asked not to', function() {
+                    item.Model = 'Town & Country';
+
+                    expect( coreconx.show( target = item, property = 'model' ) ).toBe('Town &amp; Country');
+                    expect( coreconx.show( target = item, property = 'model', makeHTMLSafe = false ) ).toBe('Town & Country');
+                    expect( coreconx.show( target = item, property = 'model', makeHTMLSafe = true ) ).toBe('Town &amp; Country');
+                });
+            });
         });
     }
 
