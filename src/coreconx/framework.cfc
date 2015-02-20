@@ -111,16 +111,17 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
     public string function qs( struct update = {}, struct URLStruct = url ) {
         var qs = '';
         var key = '';
+        var newURLStruct = duplicate( arguments.URLStruct );
 
-        structAppend( arguments.URLStruct, arguments.update, true );
+        structAppend( newURLStruct, arguments.update, true );
 
-        var keys = structKeyArray( arguments.URLStruct );
+        var keys = structKeyArray( newURLStruct );
 
         arraySort( keys, 'textnocase' );
 
         qs = '?';
         for ( key in keys ) {
-            qs &= lCase( key ) & '=' & URLEncodedFormat( arguments.URLStruct[ key ] ) & '&amp;';
+            qs &= lCase( key ) & '=' & URLEncodedFormat( newURLStruct[ key ] ) & '&amp;';
         }
 
         if ( len( qs ) == 1 ) {
