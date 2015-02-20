@@ -174,6 +174,94 @@ component extends="testbox.system.BaseSpec" {
                     expect( coreconx.show( target = item, property = 'model', makeHTMLSafe = true ) ).toBe('Town &amp; Country');
                 });
             });
+
+
+            describe('QS', function() {
+
+                beforeEach(function( currentSpec ) {
+                    url.view = 'homepage';
+                    url.page = 2;
+                    url.count = 30;
+                });
+
+                afterEach(function( currentSpec ) {
+                    structDelete( url, 'view' );
+                    structDelete( url, 'page' );
+                    structDelete( url, 'count' );
+                });
+
+                it('should have a method', function() {
+                    expect( coreconx ).toHaveKey('qs');
+                });
+
+                it('should return back the URL query string', function() {
+                    var qs = coreconx.qs();
+
+                    expect( qs ).notToBeEmpty();
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=2');
+                    expect( qs ).toInclude('count=30');
+                });
+
+                it('should return back a query string based on a mock URL structure', function() {
+                    var mockURL = {
+                        view = 'homepage',
+                        page = 2,
+                        count = 30
+                    };
+                    var qs = coreconx.qs( URLStruct = mockURL );
+
+                    expect( qs ).notToBeEmpty();
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=2');
+                    expect( qs ).toInclude('count=30');
+                    expect( qs ).toBe('?count=30&amp;page=2&amp;view=homepage');
+                });
+
+                it('should update query string', function() {
+                    var updatedURL = {
+                        page = 3,
+                        count = 10
+                    };
+                    var qs = coreconx.qs();
+
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=2');
+                    expect( qs ).toInclude('count=30');
+
+                    qs = coreconx.qs( updatedURL );
+
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=3');
+                    expect( qs ).toInclude('count=10');
+                });
+
+                it('should update query string on a mock URL structure', function() {
+                    var mockURL = {
+                        view = 'homepage',
+                        page = 2,
+                        count = 30
+                    };
+                    var updatedURL = {
+                        page = 3,
+                        count = 10
+                    };
+                    var qs = coreconx.qs( URLStruct = mockURL );
+
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=2');
+                    expect( qs ).toInclude('count=30');
+                    expect( qs ).toBe('?count=30&amp;page=2&amp;view=homepage');
+
+                    qs = coreconx.qs( update = updatedURL, URLStruct = mockURL );
+
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=3');
+                    expect( qs ).toInclude('count=10');
+                    expect( qs ).toBe('?count=10&amp;page=3&amp;view=homepage');
+                });
+
+            });
         });
     }
 

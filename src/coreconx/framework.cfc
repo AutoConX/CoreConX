@@ -108,4 +108,28 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         return shown;
     }
 
+    public string function qs( struct update = {}, struct URLStruct = url ) {
+        var qs = '';
+        var key = '';
+
+        structAppend( arguments.URLStruct, arguments.update, true );
+
+        var keys = structKeyArray( arguments.URLStruct );
+
+        arraySort( keys, 'textnocase' );
+
+        qs = '?';
+        for ( key in keys ) {
+            qs &= lCase( key ) & '=' & URLEncodedFormat( arguments.URLStruct[ key ] ) & '&amp;';
+        }
+
+        if ( len( qs ) == 1 ) {
+            qs = '';
+        } else {
+            qs = left( qs, len( qs ) - 5 );
+        }
+
+        return qs;
+    }
+
 }

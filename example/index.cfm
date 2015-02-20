@@ -44,5 +44,16 @@
             writeOutput( 'Version: ' & show( item, 'version', 'Version: ', '!') & '<br>' );
             writeOutput( 'Model: ' & show( item, 'model') & '<br>' );
         </cfscript>
+
+        <h2>The <kbd>qs()</kbd> Method</h2>
+
+        <p>Add to the query string of this page to see how the <kbd>qs()</kbd> method outputs.</p>
+
+        <p><code>
+            writeOutput( qs({ page = 3 }) );
+        </code></p>
+        <cfscript>
+            writeOutput( qs({ page = 3 }) );
+        </cfscript>
     </body>
 </html>
