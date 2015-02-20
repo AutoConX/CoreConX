@@ -261,6 +261,30 @@ component extends="testbox.system.BaseSpec" {
                     expect( qs ).toBe('?count=10&amp;page=3&amp;view=homepage');
                 });
 
+                it('should ignore some keys', function() {
+                    var updatedURL = {
+                        page = 3,
+                        count = 10
+                    };
+                    var qs = coreconx.qs();
+
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=2');
+                    expect( qs ).toInclude('count=30');
+
+                    qs = coreconx.qs( updatedURL, [ 'view' ]);
+
+                    expect( qs ).notToInclude('view=homepage');
+                    expect( qs ).toInclude('page=3');
+                    expect( qs ).toInclude('count=10');
+
+                    qs = coreconx.qs( updatedURL, [ 'count' ]);
+
+                    expect( qs ).toInclude('view=homepage');
+                    expect( qs ).toInclude('page=3');
+                    expect( qs ).notToInclude('count=10');
+                });
+
             });
         });
     }
