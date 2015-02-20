@@ -108,7 +108,7 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         return shown;
     }
 
-    public string function qs( struct update = {}, struct URLStruct = url ) {
+    public string function qs( struct update = {}, array ignore = [], struct URLStruct = url ) {
         var qs = '';
         var key = '';
         var newURLStruct = duplicate( arguments.URLStruct );
@@ -121,7 +121,9 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
 
         qs = '?';
         for ( key in keys ) {
-            qs &= lCase( key ) & '=' & URLEncodedFormat( newURLStruct[ key ] ) & '&amp;';
+            if ( !arrayFindNoCase( arguments.ignore, key ) ) {
+                qs &= lCase( key ) & '=' & URLEncodedFormat( newURLStruct[ key ] ) & '&amp;';
+            }
         }
 
         if ( len( qs ) == 1 ) {
