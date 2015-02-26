@@ -108,10 +108,28 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         return shown;
     }
 
-    public string function qs( struct update = {}, array ignore = [], struct URLStruct = url ) {
+    public string function qs( struct update = {}, array ignore = [], any querySource = cgi.query_string ) {
         var qs = '';
         var key = '';
-        var newURLStruct = duplicate( arguments.URLStruct );
+        var newURLKey = '';
+        var newURLValue = '';
+        var newURLStruct = {};
+
+        if ( isStruct( arguments.querySource ) ) {
+            newURLStruct = duplicate( arguments.querySource );
+
+        } else {
+            for ( var qpart in listToArray( arguments.querySource, '&' ) ) {
+                newURLKey = listFirst( qpart, '=' );
+                newURLValue = listRest( qpart, '=' );
+
+                newURLStruct[ newURLKey ] = '';
+                if ( newURLKey != newURLValue ) {
+                    newURLStruct[ newURLKey ] = newURLValue;
+                }
+            }
+
+        }
 
         structAppend( newURLStruct, arguments.update, true );
 
@@ -122,7 +140,7 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         qs = '?';
         for ( key in keys ) {
             if ( !arrayFindNoCase( arguments.ignore, key ) ) {
-                qs &= lCase( key ) & '=' & URLEncodedFormat( newURLStruct[ key ] ) & '&amp;';
+                qs &= lCase( key ) & '=' & newURLStruct[ key ] & '&amp;';
             }
         }
 

@@ -178,24 +178,23 @@ component extends="testbox.system.BaseSpec" {
 
             describe('QS', function() {
 
-                beforeEach(function( currentSpec ) {
-                    url.view = 'homepage';
-                    url.page = 2;
-                    url.count = 30;
-                });
-
-                afterEach(function( currentSpec ) {
-                    structDelete( url, 'view' );
-                    structDelete( url, 'page' );
-                    structDelete( url, 'count' );
-                });
-
                 it('should have a method', function() {
                     expect( coreconx ).toHaveKey('qs');
                 });
 
                 it('should return back the URL query string', function() {
                     var qs = coreconx.qs();
+
+                    if ( len( cgi.query_string ) ) {
+                        expect( qs ).notToBeEmpty();
+                        expect( qs ).toBe( '?' & replace( cgi.query_string, '&', '&amp;', 'all' ) );
+                    } else {
+                        expect( qs ).toBeEmpty();
+                    }
+                });
+
+                it('should return back a query string based on a mock query string', function() {
+                    var qs = coreconx.qs( querySource = 'view=homepage&page=2&count=30' );
 
                     expect( qs ).notToBeEmpty();
                     expect( qs ).toInclude('view=homepage');
@@ -209,7 +208,7 @@ component extends="testbox.system.BaseSpec" {
                         page = 2,
                         count = 30
                     };
-                    var qs = coreconx.qs( URLStruct = mockURL );
+                    var qs = coreconx.qs( querySource = mockURL );
 
                     expect( qs ).notToBeEmpty();
                     expect( qs ).toInclude('view=homepage');
@@ -223,13 +222,13 @@ component extends="testbox.system.BaseSpec" {
                         page = 3,
                         count = 10
                     };
-                    var qs = coreconx.qs();
+                    var qs = coreconx.qs( querySource = 'view=homepage&page=2&count=30' );
 
                     expect( qs ).toInclude('view=homepage');
                     expect( qs ).toInclude('page=2');
                     expect( qs ).toInclude('count=30');
 
-                    qs = coreconx.qs( updatedURL );
+                    qs = coreconx.qs( update = updatedURL, querySource = 'view=homepage&page=2&count=30' );
 
                     expect( qs ).toInclude('view=homepage');
                     expect( qs ).toInclude('page=3');
@@ -246,14 +245,14 @@ component extends="testbox.system.BaseSpec" {
                         page = 3,
                         count = 10
                     };
-                    var qs = coreconx.qs( URLStruct = mockURL );
+                    var qs = coreconx.qs( querySource = mockURL );
 
                     expect( qs ).toInclude('view=homepage');
                     expect( qs ).toInclude('page=2');
                     expect( qs ).toInclude('count=30');
                     expect( qs ).toBe('?count=30&amp;page=2&amp;view=homepage');
 
-                    qs = coreconx.qs( update = updatedURL, URLStruct = mockURL );
+                    qs = coreconx.qs( update = updatedURL, querySource = mockURL );
 
                     expect( qs ).toInclude('view=homepage');
                     expect( qs ).toInclude('page=3');
@@ -266,25 +265,24 @@ component extends="testbox.system.BaseSpec" {
                         page = 3,
                         count = 10
                     };
-                    var qs = coreconx.qs();
+                    var qs = coreconx.qs( querySource = 'view=homepage&page=2&count=30' );
 
                     expect( qs ).toInclude('view=homepage');
                     expect( qs ).toInclude('page=2');
                     expect( qs ).toInclude('count=30');
 
-                    qs = coreconx.qs( updatedURL, [ 'view' ]);
+                    qs = coreconx.qs( updatedURL, [ 'view' ], 'view=homepage&page=2&count=30');
 
                     expect( qs ).notToInclude('view=homepage');
                     expect( qs ).toInclude('page=3');
                     expect( qs ).toInclude('count=10');
 
-                    qs = coreconx.qs( updatedURL, [ 'count' ]);
+                    qs = coreconx.qs( updatedURL, [ 'count' ], 'view=homepage&page=2&count=30');
 
                     expect( qs ).toInclude('view=homepage');
                     expect( qs ).toInclude('page=3');
                     expect( qs ).notToInclude('count=10');
                 });
-
             });
         });
     }
