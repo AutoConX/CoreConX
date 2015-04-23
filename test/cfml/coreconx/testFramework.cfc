@@ -330,6 +330,46 @@ component extends="testbox.system.BaseSpec" {
                     expect( rendered ).toBeEmpty();
                 });
 
+                it('should render templates with values', function() {
+                    var rendered = '';
+
+                    expect(function() {
+                        savecontent variable='rendered' {
+                            coreconx.render('/test/stubs/render2');
+                        };
+                    }).notToThrow();
+
+                    savecontent variable='rendered' {
+                        coreconx.render('/test/stubs/render2', {
+                            name = 'Fake Name',
+                            age = 30
+                        });
+                    };
+
+                    expect( rendered ).notToBeEmpty();
+                    expect( rendered ).toInclude('<p>Render2</p>');
+                    expect( rendered ).toInclude('<p>Hello, Fake Name!</p>');
+                    expect( rendered ).toInclude('<p>Age: 30</p>');
+                    expect( rendered ).toInclude('<p>Gender: </p>');
+
+                    rendered = '';
+                    expect( rendered ).toBeEmpty();
+
+                    savecontent variable='rendered' {
+                        coreconx.render('/test/stubs/render2', {
+                            name = 'Fake Name2',
+                            age = 35,
+                            gender = 'male'
+                        });
+                    };
+
+                    expect( rendered ).notToBeEmpty();
+                    expect( rendered ).toInclude('<p>Render2</p>');
+                    expect( rendered ).toInclude('<p>Hello, Fake Name2!</p>');
+                    expect( rendered ).toInclude('<p>Age: 35</p>');
+                    expect( rendered ).toInclude('<p>Gender: male</p>');
+                });
+
             });
         });
     }
