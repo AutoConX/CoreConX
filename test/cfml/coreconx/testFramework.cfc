@@ -284,6 +284,51 @@ component extends="testbox.system.BaseSpec" {
                     expect( qs ).notToInclude('count=10');
                 });
             });
+
+            describe('Render', function() {
+
+                it('should have a method', function() {
+                    expect( coreconx ).toHaveKey('render');
+                });
+
+                it('should render a simple template', function() {
+                    var rendered = '';
+
+                    savecontent variable='rendered' {
+                        coreconx.render('/test/stubs/render1');
+                    };
+
+                    expect( rendered ).notToBeEmpty();
+                    expect( rendered ).toInclude('<p>Render1</p>');
+                    expect( rendered ).toInclude('<p>Hello, World!</p>');
+
+                    rendered = '';
+                    expect( rendered ).toBeEmpty();
+
+                    savecontent variable='rendered' {
+                        coreconx.render( renderName = '/test/stubs/render1' );
+                    };
+
+                    expect( rendered ).notToBeEmpty();
+                    expect( rendered ).toInclude('<p>Render1</p>');
+                    expect( rendered ).toInclude('<p>Hello, World!</p>');
+                });
+
+                it('should ignore invalid renderNames', function() {
+                    var rendered = '';
+
+                    expect(function() {
+                        coreconx.render('/test/stubs/fakerender1');
+                    }).notToThrow();
+
+                    savecontent variable='rendered' {
+                        coreconx.render('/test/stubs/fakerender1');
+                    };
+
+                    expect( rendered ).toBeEmpty();
+                });
+
+            });
         });
     }
 

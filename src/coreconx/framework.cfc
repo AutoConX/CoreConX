@@ -153,4 +153,16 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
         return qs;
     }
 
+    public void function render( string renderName = '' ) {
+        var renderPath = '';
+
+        if ( len( arguments.renderName ) ) {
+            renderPath = arguments.renderName & '.cfm';
+
+            if ( fileExists( renderPath ) || fileExists( expandPath( renderPath ) ) ) {
+                include template = renderPath;
+            }
+        }
+    }
+
 }
