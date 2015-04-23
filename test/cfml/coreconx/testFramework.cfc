@@ -340,7 +340,7 @@ component extends="testbox.system.BaseSpec" {
                     }).notToThrow();
 
                     savecontent variable='rendered' {
-                        coreconx.render('/test/stubs/render2', {
+                        coreconx.render('/test/stubs/render2.mustache', {
                             name = 'Fake Name',
                             age = 30
                         });
@@ -351,12 +351,13 @@ component extends="testbox.system.BaseSpec" {
                     expect( rendered ).toInclude('<p>Hello, Fake Name!</p>');
                     expect( rendered ).toInclude('<p>Age: 30</p>');
                     expect( rendered ).toInclude('<p>Gender: </p>');
+                    expect( rendered ).notToInclude('<p>Fake Name is old.</p>');
 
                     rendered = '';
                     expect( rendered ).toBeEmpty();
 
                     savecontent variable='rendered' {
-                        coreconx.render('/test/stubs/render2', {
+                        coreconx.render('/test/stubs/render2.mustache', {
                             name = 'Fake Name2',
                             age = 35,
                             gender = 'male'
@@ -368,6 +369,26 @@ component extends="testbox.system.BaseSpec" {
                     expect( rendered ).toInclude('<p>Hello, Fake Name2!</p>');
                     expect( rendered ).toInclude('<p>Age: 35</p>');
                     expect( rendered ).toInclude('<p>Gender: male</p>');
+                    expect( rendered ).notToInclude('<p>Fake Name2 is old.</p>');
+
+                    rendered = '';
+                    expect( rendered ).toBeEmpty();
+
+                    savecontent variable='rendered' {
+                        coreconx.render('/test/stubs/render2.mustache', {
+                            name = 'Fake Name3',
+                            age = 35,
+                            gender = 'male',
+                            isold = true
+                        });
+                    };
+
+                    expect( rendered ).notToBeEmpty();
+                    expect( rendered ).toInclude('<p>Render2</p>');
+                    expect( rendered ).toInclude('<p>Hello, Fake Name3!</p>');
+                    expect( rendered ).toInclude('<p>Age: 35</p>');
+                    expect( rendered ).toInclude('<p>Gender: male</p>');
+                    expect( rendered ).toInclude('<p>Fake Name3 is old.</p>');
                 });
 
             });

@@ -156,32 +156,21 @@ component name='CoreConX' description='The CoreConX framework.' accessors='true'
     public void function render( string renderName = '', renderContext = {} ) {
         var renderPath = '';
         var renderContent = '';
-        var renderVariableRE = '{{\s*\w+\s*}}';
+        var mustache = new mustache();
 
         if ( len( arguments.renderName ) ) {
-            renderPath = arguments.renderName & '.cfm';
+            if ( find( '.', arguments.renderName ) ) {
+                renderPath = arguments.renderName;
+            } else {
+                renderPath = arguments.renderName & '.cfm';
+            }
 
             if ( fileExists( renderPath ) || fileExists( expandPath( renderPath ) ) ) {
                 savecontent variable='renderContent' {
                     include template = renderPath;
                 }
 
-                var variablesToReplace = REMatch( renderVariableRE, renderContent );
-                var variableName = '';
-
-                for ( replacer in variablesToReplace ) {
-                    variableName = trim( replace( replace( replacer, '}}', '' ), '{{', '' ) );
-
-                    if ( isDefined('arguments.renderContext.' & variableName ) ) {
-                        variableReplacement = arguments.renderContext[ variableName ];
-                    } else {
-                        variableReplacement = '';
-                    }
-
-                    renderContent = replace( renderContent, replacer, variableReplacement, 'all' );
-                }
-
-                writeOutput( renderContent );
+                writeOutput( mustache.render( renderContent, arguments.renderContext ) );
             }
         }
     }
