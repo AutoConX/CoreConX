@@ -318,7 +318,9 @@ component extends="testbox.system.BaseSpec" {
                     var rendered = '';
 
                     expect(function() {
-                        coreconx.render('/test/stubs/fakerender1');
+                        savecontent variable='rendered' {
+                            coreconx.render('/test/stubs/fakerender1');
+                        };
                     }).notToThrow();
 
                     savecontent variable='rendered' {
