@@ -2,7 +2,7 @@
 
 > A simple CFML framework in use with our AutoConX applications.
 
-CoreConX is a standalone CFC or an Application extender that providers many of the methods that we've found helpful in developing applications at [AutoConX Systems](http://www.autoconx.com).
+CoreConX is a standalone CFC or Application extender that provides methods and functionality that we've found helpful in developing the AutoConX Inventory Manager at [AutoConX Systems](http://www.autoconx.com).
 
 
 ## Using CoreConX
@@ -19,7 +19,7 @@ It should document the major features of the framework. If you find something is
 
 ## Example Site
 
-The project comes with an example website. It uses the Application extension that CoreConX offers to show a simple example of how you'd build off CoreConX to make your own website.
+The project comes with an example website. It uses the Application extension technique to show how you'd make your own website with CoreConX.
 
 Dependencies:
   * [NodeJS](http://nodejs.org/)
@@ -43,7 +43,7 @@ Dependencies:
   * [Commandbox](http://www.ortussolutions.com/products/commandbox)
   * [Testbox](http://wiki.coldbox.org/wiki/TestBox.cfm)
 
-To view the tests:
+To run the tests:
   1. Clone the CoreConX project
   1. Run `npm install`
   1. Run `npm test`
@@ -52,7 +52,7 @@ To view the tests:
 
 ## Contributing
 
-We welcome contributors to the codebase and documentation. If you want to help out, here are some considerations and tips:
+We welcome contributors to code and documentation alike. If you want to help out, here are some considerations:
 
   1. Use a code editor that supports [EditorConfig](http://editorconfig.org/). This will keep the codebase consistent.
   1. Keep your pull request atomic. The smaller and more focused a pull request is, the more likely it is to be accepted.
@@ -64,3 +64,5 @@ We welcome contributors to the codebase and documentation. If you want to help o
 ## License
 
 MIT license
+
+Written by [Miles Rausch (@awayken)](https://twitter.com/awayken)
